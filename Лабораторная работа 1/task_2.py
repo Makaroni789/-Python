@@ -1,28 +1,28 @@
-from task_1 import Book, Car, Person
+from task_1 import Artist, Garden, Person
 
-# Класс Book
+# Класс Garden
 try:
-    book = Book("1984", "George Orwell", 328)
-    print(book.get_summary())  # Ожидается: Название: 1984, Автор: George Orwell, Страницы: 328
-    print(book.read_pages(50))  # Ожидается: Вы прочитали 50 страниц из 328.
+    garden = Garden(100, 10)
+    print(garden.plant_flowers(5))  # Ожидается: Теперь в саду 15 цветов.
+    print(garden.harvest(5))  # Ожидается: Теперь в саду 5 цветов.
+    print(f"Площадь сада: {garden.check_area()}")  # Ожидается: 100
+    # Проверяем валидацию в методе harvest
+    print(garden.harvest(15))  # Ожидается исключение, нельзя собрать больше, чем есть
+except ValueError:
+    print('Ошибка: неправильные данные')
 
-    # Проверяем валидацию в методе read_pages
-    book.read_pages(-5)  # Это должно вызвать ValueError
-except ValueError as e:
-    print(f"Ошибка при чтении страниц: {e}")
-
-# Класс Car
+# Класс Artist
 try:
-    car = Car("Toyota", "Camry", 2020)
-    print(car.get_info())  # Ожидается: Toyota Camry, 2020
+    artist = Artist("Би-2", "Рок", 10)
+    print(artist.get_info())  # Ожидается: Артист: Би-2, жанр: Рок, альбомов: 10
 
-    car.update_year(2021)  # Ожидается обновление года
-    print(car.get_info())  # Ожидается: Toyota Camry, 2021
+    artist.change_genre("Поп")
+    print(artist.get_info())  # Ожидается: Артист: Би-2, жанр: Поп, альбомов: 10
 
-    # Проверяем валидацию в методе update_year
-    car.update_year(1800)  # Это должно вызвать ValueError
-except ValueError as e:
-    print(f"Ошибка при обновлении года: {e}")
+    # Проверяем валидацию в методе change_genre
+    artist.change_genre("")  # Ожидается исключение, Новый жанр не может быть пустым.
+except ValueError:
+    print('Ошибка: неправильные данные')
 
 # Класс Person
 try:
@@ -34,4 +34,4 @@ try:
     # Проверяем валидацию в конструкторе
     person_invalid = Person("Bob", -1)  # Это должно вызвать ValueError
 except ValueError as e:
-    print(f"Ошибка при создании человека: {e}")
+    print('Ошибка: неправильные данные')
