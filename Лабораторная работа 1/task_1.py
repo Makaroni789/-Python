@@ -1,90 +1,99 @@
 # TODO: Подробно описать три произвольных класса
+import doctest
 
-class Book:
-    def __init__(self, title: str, author: str, pages: int):
+class Artist:
+    def __init__(self, name: str, genre: str, albums: int):
+        """Инициализируем объект Artist.
+
+        :param name: имя артиста (не может быть пустым).
+        :param genre: жанр музыки (не может быть пустым).
+        :param albums: количество альбомов (должно быть неотрицательным).
         """
-        Создание и подготовка к работе объекта "книга"
+        if not name or not genre:
+            raise ValueError("Имя и жанр не могут быть пустыми строками.")
+        if albums < 0:
+            raise ValueError("Количество альбомов не может быть отрицательным.")
 
-        :param title: Название книги.
-        :param author: Автор книги.
-        :param pages: Количество страниц, должно быть положительным числом.
-        :param ValueError: Если количество страниц меньше или равно 0.
-        """
-        if pages <= 0:
-            raise ValueError("Количество страниц должно быть положительным числом.")
-        self.title = title
-        self.author = author
-        self.pages = pages
-
-    def get_summary(self) -> str:
-        """
-        метод для получения краткого описания книги.
-
-        :return: Описание в формате "Название: {title}, Автор: {author}, Страницы: {pages}".
-        >>> book = Book("1984", "George Orwell", 328)
-        >>> book.get_summary()
-        'Название: 1984, Автор: George Orwell, Страницы: 328'
-        """
-        return f"Название: {self.title}, Автор: {self.author}, Страницы: {self.pages}"
-
-    def read_pages(self, number_of_pages: int) -> str:
-        """
-        Прочитать заданное количество страниц.
-
-        :param number_of_pages: Количество страниц для чтения, должно быть положительным числом.
-        :raises ValueError: Если количество страниц меньше или равно 0.
-        :return: Строка с сообщением о прочитанных страницах.
-        >>> book = Book("1984", "George Orwell", 328)
-        >>> book.read_pages(50)
-        'Вы прочитали 50 страниц из 328.'
-        """
-        if number_of_pages <= 0:
-            raise ValueError("Количество страниц для чтения должно быть положительным числом.")
-        return f"Вы прочитали {number_of_pages} страниц из {self.pages}."
-
-
-
-class Car:
-    def __init__(self, make: str, model: str, year: int):
-        """
-        Создание и подготовка к работе объекта "автомобиль"
-
-        :param make: Производитель автомобиля.
-        :param model: Модель автомобиля.
-        :param year: Год выпуска, должен быть не меньше 1886 (первый год автомобиля).
-        :raises ValueError: Если год выпуска меньше 1886.
-        """
-        if year < 1886:
-            raise ValueError("Год выпуска автомобиля не может быть менее 1886.")
-        self.make = make
-        self.model = model
-        self.year = year
+        self.name = name
+        self.genre = genre
+        self.albums = albums
 
     def get_info(self) -> str:
-        """
-        Получить информацию об автомобиле.
+        """Возвращает информацию об артистe.
 
-        :return: Строка с информацией о автомобиле.
-        >>> car = Car("Toyota", "Camry", 2020)
-        >>> car.get_info()
-        'Toyota Camry, 2020'
-        """
-        return f"{self.make} {self.model}, {self.year}"
+        :return: строка с информацией об артисте.
 
-    def update_year(self, new_year: int) -> None:
+        >>> artist = Artist("Би-2", "Рок", 10)
+        >>> artist.get_info()
+        'Артист: Би-2, жанр: Рок, альбомов: 10'
         """
-        Обновить год выпуска автомобиля.
+        return f'Артист: {self.name}, жанр: {self.genre}, альбомов: {self.albums}'
 
-        :param new_year: Новый год выпуска, должен быть не меньше 1886.
-        :raises ValueError: Если новый год меньше 1886.
-        >>> car = Car("Toyota", "Camry", 2020)
-        >>> car.update_year(2021)
-        >>> car.get_info()
-        'Toyota Camry, 2021'
+    def change_genre(self, new_genre: str) -> None:
+        """Меняет жанр артиста на новый.
+
+        :param new_genre: новый жанр (не может быть пустым).
+
+        >>> artist = Artist("Би-2", "Рок", 10)
+        >>> artist.change_genre("Поп")
         """
-        if new_year < 1886:
-            raise ValueError("Год выпуска автомобиля не может быть менее 1886.")
-        self.year = new_year
+        if not new_genre:
+            raise ValueError("Новый жанр не может быть пустым.")
+        self.genre = new_genre
+
+
+class Garden:
+    def __init__(self, area: float, flower_count: int):
+        if area <= 0:
+            raise ValueError("Площадь сада должна быть больше 0 квадратных метров")
+        if flower_count < 0:
+            raise ValueError("Количество цветов не может быть отрицательным")
+        self.area = area
+        self.flower_count = flower_count
+
+    def plant_flowers(self, count: int) -> str:
+        """Сажает указанное количество цветов.
+
+        :param count: количество цветов для посадки.
+        :return: сообщение о новом количестве цветов.
+        Примеры:
+        >>> garden = Garden(100, 10)
+        >>> garden.plant_flowers(5)
+        'Теперь в саду 15 цветов.'
+        """
+        if count < 1:
+            raise ValueError("Количество цветов должно быть положительным")
+        self.flower_count += count
+        return f"Теперь в саду {self.flower_count} цветов."
+
+    def harvest(self, count: int) -> str:
+        """Собирает указанное количество цветов.
+
+        :param count: количество цветов для сбора.
+        :return: сообщение о новом количестве цветов.
+        Примеры:
+        >>> garden = Garden(100, 10)
+        >>> garden.harvest(5)
+        'Теперь в саду 5 цветов.'
+        """
+        if count < 1:
+            raise ValueError("Количество собираемых цветов должно быть положительным")
+        if count > self.flower_count:
+            raise ValueError("Невозможно собрать больше цветов, чем есть")
+        self.flower_count -= count
+        return f"Теперь в саду {self.flower_count} цветов."
+
+    def check_area(self) -> float:
+        """Метод для получения площади сада.
+
+        :return: площадь сада в квадратных метрах.
+        Примеры:
+        >>> garden = Garden(100, 10)
+        >>> garden.check_area()
+        100
+        """
+        return self.area
+
 
 
 class Person:
@@ -121,3 +130,6 @@ class Person:
         'Имя: Alice, Возраст: 30'
         """
         return f"Имя: {self.name}, Возраст: {self.age}"
+
+if __name__ == "__main__":
+    doctest.testmod()  # тестирование примеров, которые находятся в документации
